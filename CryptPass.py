@@ -1,16 +1,6 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function
-import random
-import string
-import binascii
-import ConfigParser
-import getpass
-import time
-import os
-import sys
-
 #--------------------------------------------
 # Criado por: Wolfterro
 # Versão: 1.1 - Python 2.x
@@ -31,6 +21,16 @@ import sys
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #------------------------------------------------------------------------
+
+from __future__ import print_function
+import random
+import string
+import binascii
+import ConfigParser
+import getpass
+import time
+import os
+import sys
 
 # Versão do Programa
 #===================
