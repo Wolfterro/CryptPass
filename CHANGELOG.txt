@@ -13,6 +13,7 @@ VERSÃO 1.1
  --- Operação de Encriptação e Decriptação alterados
  --- Uso de Hexadecimal ao invés de binário
  --- Master Key e Seed serão armazenados em Hexadecimal
+ 
  - Mudanças no código do programa
  --- Uso do ConfigParser para analisar o arquivo de chave privada (Private.key)
 
