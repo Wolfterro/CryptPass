@@ -181,10 +181,10 @@ def file_listing():
 		decriptar_escolha = raw_input("\nDeseja decriptar um dos arquivos de senha? [s/N]: ")
 		decriptar_escolha = decriptar_escolha.upper()
 
-	if decriptar_escolha == "S":
-		main_decrypt_password()
-	else:
-		print ("Saindo...")
+		if decriptar_escolha == "S":
+			main_decrypt_password()
+		else:
+			print ("Saindo...")
 
 def main():
 	# Inicializando Verificação de Pasta
