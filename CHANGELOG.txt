@@ -1,0 +1,22 @@
+CryptPass
+=========
+
+Criptografia Simples de Senhas
+------------------------------
+
+CHANGELOG:
+==========
+
+VERSÃO 1.1
+ - Mudanças no algoritmo de criptografia
+ --- Uso de chave privada (Private Key)
+ --- Operação de Encriptação e Decriptação alterados
+ --- Uso de Hexadecimal ao invés de binário
+ --- Master Key e Seed serão armazenados em Hexadecimal
+ - Mudanças no código do programa
+ --- Uso do ConfigParser para analisar o arquivo de chave privada (Private.key)
+
+#-------------------------------------------------------------------------------------------------------------------
+
+VERSÃO 1.0
+ - Versão inicial do programa
