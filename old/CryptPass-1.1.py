@@ -3,8 +3,8 @@
 
 #--------------------------------------------
 # Criado por: Wolfterro
-# Versão: 1.2 - Python 2.x
-# Data: 07/05/2016
+# Versão: 1.1 - Python 2.x
+# Data: 04/05/2016
 #--------------------------------------------
 # Copyright (c) 2016 Wolfgang Almeida <wolfgang.almeida@yahoo.com>
 #-----------------------------------------------------------------------
@@ -34,7 +34,7 @@ import sys
 
 # Versão do Programa
 #===================
-version = "1.2"
+version = "1.1"
 
 # Verificando Existência da pasta "CryptPass"
 #============================================
@@ -124,9 +124,9 @@ def main_encrypt_password():
 
 	# Salvando em Arquivo
 	#====================
-	file_generated = "CryptPass_-_" + get_timestamp_for_file() + ".key"
+	file_generated = "CryptPass_-_" + get_timestamp_for_file() + ".txt"
 	file = open(file_generated, "w")
-	file.write("[Keys]" + "\n" + "Master Key: " + master_key_hex + "\n" + "Seed: " + get_seed_hex + "\n")
+	file.write("Master Key: " + master_key_hex + "\n" + "Seed: " + get_seed_hex + "\n")
 	file.close()
 
 	print("Arquivo criado em: %s" % (os.path.realpath(file_generated)))
@@ -143,22 +143,26 @@ def main_decrypt_password():
 	escolher_arquivo = raw_input("\nEscolha um arquivo através do número listado: ")
 	escolher_arquivo = int(escolher_arquivo)
 
-	keys_get = ConfigParser.ConfigParser()
-
 	try:
-		keys_get.read(list_files_cryptpass_folder[escolher_arquivo - 1])
+		file = open(list_files_cryptpass_folder[escolher_arquivo - 1], "r")
+		linhas = file.readlines()
 
-		get_master_key_from_file = keys_get.get("Keys", "Master Key")
-		get_seed_from_file = keys_get.get("Keys", "Seed") 
+		get_master_key_from_file = str(linhas[0])
+		get_seed_from_file = str(linhas[1])
 
-		print ("\nMaster Key: %s" % (get_master_key_from_file))
-		print ("\nSeed: %s" % (get_seed_from_file))
+		print ("\n%s" % (get_master_key_from_file))
+		print ("%s" % (get_seed_from_file))
+
+		get_master_key_from_file = get_master_key_from_file.replace("Master Key: ", "")
+		get_seed_from_file = get_seed_from_file.replace("Seed: ", "")
 
 		master_key_decrypted = hex((int(get_master_key_from_file, 16) / int(get_private_key, 16)) - int(get_seed_from_file, 16)).replace("0x", "").replace("L", "").upper()
 		password_string = hex_to_string(master_key_decrypted)
 
-		print ("\nMaster Key Decriptada: %s" % (master_key_decrypted))
+		print ("Master Key Decriptada: %s" % (master_key_decrypted))
 		print ("\nSenha: %s" % (password_string))
+
+		file.close()
 
 	except IndexError:
 		print("\nErro! Arquivo escolhido não consta na lista!")
@@ -185,7 +189,7 @@ def file_listing():
 
 	for listar_arquivos in list_files_cryptpass_folder:
 		quantidade_itens += 1
-		listar_arquivos = listar_arquivos.replace("_-_", " *** ").replace(".txt", "").replace(".key", "")
+		listar_arquivos = listar_arquivos.replace("_-_", " *** ").replace(".txt", "")
 		print (str(quantidade_itens) + " - " + listar_arquivos)
 
 	if tamanho_lista > 0:
@@ -197,8 +201,6 @@ def file_listing():
 		else:
 			print ("Saindo...")
 
-# Método Principal: O programa
-#=============================
 def main():
 	# Inicializando Verificação de Pasta
 	#===================================

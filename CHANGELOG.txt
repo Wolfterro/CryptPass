@@ -7,6 +7,13 @@ Criptografia Simples de Senhas
 CHANGELOG:
 ==========
 
+VERSÃO 1.2
+ - Mudanças no código do programa
+ --- Uso do ConfigParser para analisar os arquivos de chaves criptografadas
+ --- Arquivos de chaves criptografadas serão criados com extensão ".key"
+
+#-------------------------------------------------------------------------------------------------------------------
+
 VERSÃO 1.1
  - Mudanças no algoritmo de criptografia
  --- Uso de chave privada (Private Key)
