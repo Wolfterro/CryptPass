@@ -13,6 +13,7 @@
 
 ###### O método é bem simples, o programa converte a senha para hexadecimal e gera uma Seed aleatória pelo sistema, esta Seed também é convertida em hexadecimal e é combinada com a senha e a Private Key para gerar uma Master Key.
 ###### A decriptação da senha é o processo inverso, retirando a Seed e a Private Key da Master Key para obter a senha em hexadecimal, convertendo novamente para um formato legível.
+###### Por ser um método simples, o programa é melhor recomendado para ofuscação ou aprendizagem.
 
 #### [Confira aqui o changelog do programa para maiores informações sobre diferentes versões.](https://raw.github.com/Wolfterro/CryptPass/master/CHANGELOG.txt)<br />
 
