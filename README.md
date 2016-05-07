@@ -7,7 +7,7 @@
 ###### Este é um simples programa de criptografia escrito em Python.
 ###### O programa, ao ser executado, cria uma pasta 'CryptPass' no mesmo diretório que o programa está sendo executado, nesta pasta será armazenada as senhas criptografadas.
 ###### Ao fazer uma das operações, o programa irá criar (caso não exista) um arquivo de chave privada (Private.key) no mesmo diretório que o programa está sendo executado, esta chave é única e necessária para encriptar e decriptar corretamente suas senhas.
-###### O arquivo de senhas é criado em formato de puro texto e com extensão '.txt', possuindo a Master Key e a Seed gerada pelo programa.
+###### O arquivo de senha será criado na pasta 'CryptPass', possuindo uma timestamp (hora e data que foi criado) e com extensão '.key'. É neste arquivo que será armazenado a Master Key e a Seed gerada pelo programa, isto é, sua senha criptografada.
 
 ### Método:
 
@@ -23,6 +23,6 @@
 
 ###### Para baixar o programa, basta inserir estes comandos no terminal, um de cada vez:
 
-    wget -O CryptPass 'https://raw.github.com/Wolfterro/CryptPass/master/CryptPass.py'
-    chmod +x CryptPass
-    ./CryptPass
+    wget -O cryptpass 'https://raw.github.com/Wolfterro/CryptPass/master/CryptPass.py'
+    chmod +x cryptpass
+    ./cryptpass
