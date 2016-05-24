@@ -7,6 +7,17 @@ Criptografia Simples de Senhas
 CHANGELOG:
 ==========
 
+VERSÃO 1.3
+ - Mudanças no código do programa
+ --- Comparação de senhas digitadas para que o usuário se certifique que digitou a senha corretamente
+ --- Nova função para utilização de chave privada (Private Key) customizada pelo usuário
+
+ NOTA:
+ Ao utilizar uma chave privada customizada, certifique-se de ter feito backup da chave anterior (se houver) e
+ também os arquivos de chave encriptados por ela! Senão, será impossível decriptar o arquivo corretamente!!
+
+#-------------------------------------------------------------------------------------------------------------------
+
 VERSÃO 1.2
  - Mudanças no código do programa
  --- Uso do ConfigParser para analisar os arquivos de chaves criptografadas

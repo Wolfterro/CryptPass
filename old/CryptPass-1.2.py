@@ -3,8 +3,8 @@
 
 #--------------------------------------------
 # Criado por: Wolfterro
-# Versão: 1.3 - Python 2.x
-# Data: 24/05/2016
+# Versão: 1.2 - Python 2.x
+# Data: 07/05/2016
 #--------------------------------------------
 # Copyright (c) 2016 Wolfgang Almeida <wolfgang.almeida@yahoo.com>
 #-----------------------------------------------------------------------
@@ -34,7 +34,7 @@ import sys
 
 # Versão do Programa
 #===================
-version = "1.3"
+version = "1.2"
 
 # Verificando Existência da pasta "CryptPass"
 #============================================
@@ -71,46 +71,6 @@ def check_private_key():
         file.close()
         return new_private_key_hex
 
-# Criando Private.key Customizada
-#================================
-def create_custom_private_key():
-	print("\n!! Aviso !! Esta função irá criar uma Chave Privada customizada para criptografar suas senhas!")
-	print("Um novo arquivo 'Private.key' será criado e, caso este arquivo já exista, será substituído!!")
-	print("A nova chave não será capaz de decriptar as senhas criptografadas anteriormente por ela!!!\n")
-
-	create_new_key = raw_input("Deseja criar uma nova chave? [s/N]: ")
-	create_new_key = create_new_key.upper()
-
-	if create_new_key == "S":
-		check_existing_key = os.path.exists("../Private.key")
-
-		if check_existing_key == True:
-			substitute_private_key = raw_input("\n!! Aviso !! Private.key já existe!!! Deseja substituir? [s/N]: ")
-			substitute_private_key = substitute_private_key.upper()
-
-			if substitute_private_key == "S":
-				file_key = open("../Private.key", "w")
-				custom_private_key = raw_input("Insira uma nova chave: ")
-				custom_private_key_hex = string_to_hex(custom_private_key)
-				file_key.write("[Private Key]" + "\n" + "Key: " + custom_private_key_hex)
-				file_key.close()
-
-				print("\nPrivate.key criada com sucesso! Saindo...")
-
-			else:
-				print ("Saindo...")
-
-		else:
-			file_key = open("../Private.key", "w")
-			custom_private_key = raw_input("Insira uma nova chave: ")
-			custom_private_key_hex = string_to_hex(custom_private_key)
-			file_key.write("[Private Key]" + "\n" + "Key: " + custom_private_key_hex)
-			file_key.close()
-
-			print("Private.key criada com sucesso! Saindo...")
-	else:
-		print ("Saindo...")
-
 # Gerando Timestamp Para o Arquivo
 #=================================
 def get_timestamp_for_file():
@@ -146,37 +106,30 @@ def main_encrypt_password():
 	#=================
 	print("")
 	get_password = getpass.getpass("Insira sua senha: ")
-	get_password_again = getpass.getpass("Insira novamente sua senha: ")
+	get_password_hex = string_to_hex(get_password)
 
-	if get_password == get_password_again:
-		
-		get_password_hex = string_to_hex(get_password)
+	# Gerando Seed
+	#=============
+	get_seed = get_random_seed()
+	get_seed_hex = string_to_hex(get_seed)
 
-		# Gerando Seed
-		#=============
-		get_seed = get_random_seed()
-		get_seed_hex = string_to_hex(get_seed)
+	# Gerando Master Key
+	#===================
+	master_key_hex = hex(int(get_private_key, 16) * (int(get_password_hex, 16) + int(get_seed_hex, 16))).replace("0x", "").replace("L", "").upper()
 
-		# Gerando Master Key
-		#===================
-		master_key_hex = hex(int(get_private_key, 16) * (int(get_password_hex, 16) + int(get_seed_hex, 16))).replace("0x", "").replace("L", "").upper()
+	# Enviando Informações Para o Usuário
+	#====================================
+	print ("\nMaster Key: %s\n" % (master_key_hex))
+	print ("Seed: %s\n" % (get_seed_hex))
 
-		# Enviando Informações Para o Usuário
-		#====================================
-		print ("\nMaster Key: %s\n" % (master_key_hex))
-		print ("Seed: %s\n" % (get_seed_hex))
+	# Salvando em Arquivo
+	#====================
+	file_generated = "CryptPass_-_" + get_timestamp_for_file() + ".key"
+	file = open(file_generated, "w")
+	file.write("[Keys]" + "\n" + "Master Key: " + master_key_hex + "\n" + "Seed: " + get_seed_hex + "\n")
+	file.close()
 
-		# Salvando em Arquivo
-		#====================
-		file_generated = "CryptPass_-_" + get_timestamp_for_file() + ".key"
-		file = open(file_generated, "w")
-		file.write("[Keys]" + "\n" + "Master Key: " + master_key_hex + "\n" + "Seed: " + get_seed_hex + "\n")
-		file.close()
-
-		print("Arquivo criado em: %s" % (os.path.realpath(file_generated)))
-	else:
-		print("!! Erro !! As senhas não batem!")
-		main_encrypt_password()
+	print("Arquivo criado em: %s" % (os.path.realpath(file_generated)))
 
 # Método Principal: Decriptando Senha
 #====================================
@@ -196,7 +149,7 @@ def main_decrypt_password():
 		keys_get.read(list_files_cryptpass_folder[escolher_arquivo - 1])
 
 		get_master_key_from_file = keys_get.get("Keys", "Master Key")
-		get_seed_from_file = keys_get.get("Keys", "Seed")
+		get_seed_from_file = keys_get.get("Keys", "Seed") 
 
 		print ("\nMaster Key: %s" % (get_master_key_from_file))
 		print ("\nSeed: %s" % (get_seed_from_file))
@@ -259,8 +212,7 @@ def main():
 
 	print("Escolha uma das opções abaixo:")
 	print(" (1) - Encriptar Senha e Criar Arquivo")
-	print(" (2) - Decriptar Arquivo e Mostar Senha")
-	print(" (3) - Criar Private.key Customizada\n")
+	print(" (2) - Decriptar Arquivo e Mostar Senha\n")
 
 	escolha_principal = raw_input("Selecione uma das opções (qualquer outra tecla para sair): ")
 
@@ -268,8 +220,6 @@ def main():
 		main_encrypt_password()
 	elif escolha_principal == "2":
 		file_listing()
-	elif escolha_principal == "3":
-		create_custom_private_key()
 	else:
 		print("Saindo...")
 
